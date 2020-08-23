@@ -6,6 +6,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       name: {
         type: Sequelize.STRING,
@@ -17,6 +18,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       about: {
+        type: Sequelize.STRING,
+      },
+      foto: {
         type: Sequelize.STRING,
       },
       createdAt: {

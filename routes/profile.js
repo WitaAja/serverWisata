@@ -5,5 +5,9 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 let landing = require("../controllers/landing");
 
-router.get("/", landing.get_landing);
+const profil = require("../controllers/profile");
+const { auth } = require("../middleware");
+//ROUTER
+router.get("/", auth, profil.showProfile);
+
 module.exports = router;
