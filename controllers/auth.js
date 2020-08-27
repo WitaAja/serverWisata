@@ -10,20 +10,30 @@ exports.login = (req, res) => {
   }).then((user) => {
     if (user) {
       const token = jwt.sign({ user }, "thisismysecretkey");
-      res.send({
+      var data = {
         userId: user.id,
         email: user.email,
-        message: "success login",
         token,
+      };
+      res.json({
+        status: true,
+        code: 200,
+        message: "success login",
+        data,
       });
     } else {
       models.User.create(req.body).then((user) => {
         const token = jwt.sign({ user }, "thisismysecretkey");
-        res.send({
+        var data = {
           userId: user.id,
-          message: "success Registered ",
           email: user.email,
           token,
+        };
+        res.json({
+          status: true,
+          code: 200,
+          message: "success register",
+          data,
         });
       });
     }

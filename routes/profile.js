@@ -9,5 +9,6 @@ const profil = require("../controllers/profile");
 const { auth } = require("../middleware");
 //ROUTER
 router.get("/", auth, profil.showProfile);
+router.put("/", auth, profil.updateProfile);
 
 module.exports = router;
