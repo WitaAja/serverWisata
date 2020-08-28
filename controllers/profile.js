@@ -104,3 +104,17 @@ exports.uploadPhoto = (req, res) => {
     res.status(500).send(err);
   }
 };
+
+exports.showProvinsi = (req, res) => {
+  models.Wilayah_provinsi.findAll({
+    attributes: { exclude: ["createdAt", "updatedAt"] },
+  }).then((data) => {
+    console.log("dataaa", data);
+    res.send({
+      status: true,
+      code: 200,
+      message: "success get profile",
+      data,
+    });
+  });
+};

@@ -10,6 +10,7 @@ const cors = require("cors");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var profileRouter = require("./routes/profile");
+var wilayahRouter = require("./routes/wilayah");
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use(
 app.use("/", indexRouter);
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/profile", profileRouter);
+app.use("/api/v1/wilayah", wilayahRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
