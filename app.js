@@ -6,6 +6,7 @@ var logger = require("morgan");
 var fileUpload = require("express-fileupload");
 const _ = require("lodash");
 const cors = require("cors");
+const serve = require("express-static");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -28,7 +29,7 @@ app.use(
     createParentPath: true,
   })
 );
-
+app.use(express.static("uploads"));
 app.use("/", indexRouter);
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/profile", profileRouter);
