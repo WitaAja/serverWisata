@@ -4,10 +4,11 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-const wilayah = require("../controllers/wilayah");
+const posting = require("../controllers/postings");
 
 //ROUTER
-router.get("/provinsi", wilayah.showProvinsi);
-router.get("/kota/:id_prov", wilayah.showKabupaten);
+router.post("/", posting.createPosting);
+router.get("/",posting.index)
+
 
 module.exports = router;

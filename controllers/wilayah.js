@@ -3,7 +3,7 @@ const _ = require("lodash");
 
 exports.showProvinsi = (req, res) => {
   try {
-    models.Wilayah_provinsi.findAll({
+    models.Provinsi.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
     }).then((data) => {
       console.log("dataaa", data);
@@ -21,7 +21,7 @@ exports.showProvinsi = (req, res) => {
 
 exports.showKabupaten = (req, res) => {
   try {
-    models.Wilayah_kabupaten.findAll({
+    models.Kota.findAll({
       where: { provinsi_id: req.params.id_prov },
       attributes: { exclude: ["createdAt", "updatedAt"] },
     }).then((data) => {
