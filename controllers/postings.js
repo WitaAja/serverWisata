@@ -5,6 +5,7 @@ const Users = require("../models").User;
 const Provinsi = require("../models").Provinsi;
 const Kota = require("../models").Kota;
 const imagePost = require("../models").imagePost;
+const Categories = require("../models").Categories;
 const url = require("../constant").url
 
 //api create posting
@@ -14,6 +15,7 @@ exports.createPosting = (req, res) => {
       description: req.body.description,   
       prov: req.body.prov,
       kota: req.body.kota,
+      category: req.body.category,
       createdBy: userId
     }
     models.Posting.create(reqBody).then(response => {
@@ -64,6 +66,7 @@ exports.createPosting = (req, res) => {
   }catch (e){
     res.send({
       status:false,
+      code: 500,
       message:"create postings error",
       error: e
     })
@@ -93,6 +96,11 @@ exports.index = (req, res) => {
               {
                 model: imagePost,
                 as: "imageposts",              
+              },
+              {
+                model: Categories,
+                as: "as_category", 
+                attributes: ["id", "name",]             
               }
             ]
           }).then(data =>{
@@ -104,6 +112,11 @@ exports.index = (req, res) => {
               });
           } );
     }catch (error){
-        res.send(error)
+      res.send({
+        status: false,
+        code: 500,
+        message: "error get data",
+        data
+      });
     }  
   };
