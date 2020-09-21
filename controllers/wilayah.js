@@ -6,7 +6,6 @@ exports.showProvinsi = (req, res) => {
     models.Provinsi.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
     }).then((data) => {
-      console.log("dataaa", data);
       res.send({
         status: true,
         code: 200,
@@ -25,7 +24,23 @@ exports.showKabupaten = (req, res) => {
       where: { provinsi_id: req.params.id_prov },
       attributes: { exclude: ["createdAt", "updatedAt"] },
     }).then((data) => {
-      console.log("dataaa", data);
+      res.send({
+        status: true,
+        code: 200,
+        message: "success get data`",
+        data,
+      });
+    });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+exports.showCategory = (req, res) => {
+  try {
+    models.Categories.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    }).then((data) => {
       res.send({
         status: true,
         code: 200,

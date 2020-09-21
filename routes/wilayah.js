@@ -11,5 +11,7 @@ const wilayah = require("../controllers/wilayah");
 router.get("/provinsi", wilayah.showProvinsi);
 //get kota/kab
 router.get("/kota/:id_prov", wilayah.showKabupaten);
+//get category
+router.get("/category", wilayah.showCategory);
 
 module.exports = router;
