@@ -11,6 +11,8 @@ const posting = require("../controllers/postings");
 router.post("/",auth, posting.createPosting); 
 // get all posting
 router.get("/",posting.index)
+//get my posting
+router.get("/myPosting",auth,posting.myPosting)
 
 
 module.exports = router;

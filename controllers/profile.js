@@ -38,43 +38,6 @@ exports.updateProfile = (req, res) => {
   }
 };
 
-exports.uploadMultiPhoto = (req, res) => {
-  try {
-    if (!req.files) {
-      res.send({
-        status: false,
-        message: "No file uploaded",
-      });
-    } else {
-      let data = [];
-
-      //loop all files
-      _.forEach(_.keysIn(req.files.photos), (key) => {
-        let photo = req.files.photos[key];
-
-        //move photo to uploads directory
-        photo.mv("./uploads/" + photo.name);
-
-        //push file details
-        data.push({
-          name: photo.name,
-          mimetype: photo.mimetype,
-          size: photo.size,
-        });
-      });
-
-      //return response
-      res.send({
-        status: true,
-        message: "Files are uploaded",
-        data: data,
-      });
-    }
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
 exports.uploadPhoto = (req, res) => {
   try {
     if (!req.files) {
@@ -105,16 +68,4 @@ exports.uploadPhoto = (req, res) => {
   }
 };
 
-exports.showProvinsi = (req, res) => {
-  models.Wilayah_provinsi.findAll({
-    attributes: { exclude: ["createdAt", "updatedAt"] },
-  }).then((data) => {
-    console.log("dataaa", data);
-    res.send({
-      status: true,
-      code: 200,
-      message: "success get profile",
-      data,
-    });
-  });
-};
+
