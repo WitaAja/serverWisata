@@ -12,9 +12,9 @@ router.post("/",auth, posting.createPosting);
 // get all posting
 router.get("/",posting.index)
 //get my posting
-router.post("/myPosting",auth,posting.myPosting)
+router.post("/my-posting",auth,posting.myPosting)
 //get search posting
-router.post("/postingSearch",auth,posting.postingSearch)
+router.post("/posting-search",auth,posting.postingSearch)
 
 
 module.exports = router;

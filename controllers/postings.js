@@ -222,48 +222,198 @@ exports.index = (req, res) => {
 
   exports.postingSearch = (req, res) => {
     try{
-      models.Posting.findAll({
-        where: {'$post_category.categoryId$': "1"},
-          include: [         
-            {
-              model: Users,
-              as: "user",
-              attributes: ["id", "name","foto"]
-            },
-            {
-              model: Provinsi,
-              as: "as_provinsi",
-              attributes: ["id", "name",]
-            },
-            {
-              model: Kota,
-              as: "as_kota",
-              attributes: ["id", "name",]
-            },
-            {
-              model: imagePost,
-              as: "imageposts", 
-              attributes: ["id", "urlImg",]             
-            },
-            {
-              model: PostCategory,
-              as: "post_category", 
-              attributes: ["id", "categoryId",] ,
-              include:[{
-                model:Categories,
-                as : "as_category",
+      if(req.body.prov != "0" && req.body.kota != "0" && req.body.category != "0"){
+        models.Posting.findAll({
+          where: {
+            '$post_category.categoryId$': req.body.category ,
+            '$as_provinsi.id$': req.body.prov,
+            '$as_kota.id$': req.body.kota,
+          },
+            include: [         
+              {
+                model: Users,
+                as: "user",
+                attributes: ["id", "name","foto"]
+              },
+              {
+                model: Provinsi,
+                as: "as_provinsi",
                 attributes: ["id", "name",]
-              }]           
-            },
-          ]
-        }).then(data =>{
-          res.send({
-              status: true,
-              code: 200,
-              message: "success get data",
-              data
-            });
-        } );
+              },
+              {
+                model: Kota,
+                as: "as_kota",
+                attributes: ["id", "name",]
+              },
+              {
+                model: imagePost,
+                as: "imageposts", 
+                attributes: ["id", "urlImg",]             
+              },
+              {
+                model: PostCategory,
+                as: "post_category", 
+                attributes: ["id", "categoryId",] ,
+                include:[{
+                  model:Categories,
+                  as : "as_category",
+                  attributes: ["id", "name",]
+                }]           
+              },
+            ],
+            
+          }).then(data =>{
+            res.send({
+                status: true,
+                code: 200,
+                message: "success get data",
+                data
+              });
+          } );
+      }else if(req.body.prov != "0" && req.body.kota != "0" && req.body.category == "0"){
+        models.Posting.findAll({
+          where: {        
+            '$as_provinsi.id$': req.body.prov,
+            '$as_kota.id$': req.body.kota,
+          },
+            include: [         
+              {
+                model: Users,
+                as: "user",
+                attributes: ["id", "name","foto"]
+              },
+              {
+                model: Provinsi,
+                as: "as_provinsi",
+                attributes: ["id", "name",]
+              },
+              {
+                model: Kota,
+                as: "as_kota",
+                attributes: ["id", "name",]
+              },
+              {
+                model: imagePost,
+                as: "imageposts", 
+                attributes: ["id", "urlImg",]             
+              },
+              {
+                model: PostCategory,
+                as: "post_category", 
+                attributes: ["id", "categoryId",] ,
+                include:[{
+                  model:Categories,
+                  as : "as_category",
+                  attributes: ["id", "name",]
+                }]           
+              },
+            ],
+            
+          }).then(data =>{
+            res.send({
+                status: true,
+                code: 200,
+                message: "success get data",
+                data
+              });
+          } );
+      }else if(req.body.prov != "0" && req.body.kota == "0" && req.body.category == "0"){
+        models.Posting.findAll({
+          where: {
+            '$as_provinsi.id$': req.body.prov,
+          },
+            include: [         
+              {
+                model: Users,
+                as: "user",
+                attributes: ["id", "name","foto"]
+              },
+              {
+                model: Provinsi,
+                as: "as_provinsi",
+                attributes: ["id", "name",]
+              },
+              {
+                model: Kota,
+                as: "as_kota",
+                attributes: ["id", "name",]
+              },
+              {
+                model: imagePost,
+                as: "imageposts", 
+                attributes: ["id", "urlImg",]             
+              },
+              {
+                model: PostCategory,
+                as: "post_category", 
+                attributes: ["id", "categoryId",] ,
+                include:[{
+                  model:Categories,
+                  as : "as_category",
+                  attributes: ["id", "name",]
+                }]           
+              },
+            ],
+            
+          }).then(data =>{
+            res.send({
+                status: true,
+                code: 200,
+                message: "success get data",
+                data
+              });
+          } );     
+      }else if(req.body.prov != "0" && req.body.kota == "0" && req.body.category != "0"){
+        models.Posting.findAll({
+          where: {
+            '$as_provinsi.id$': req.body.prov,
+            '$post_category.categoryId$': req.body.category 
+          },
+            include: [         
+              {
+                model: Users,
+                as: "user",
+                attributes: ["id", "name","foto"]
+              },
+              {
+                model: Provinsi,
+                as: "as_provinsi",
+                attributes: ["id", "name",]
+              },
+              {
+                model: Kota,
+                as: "as_kota",
+                attributes: ["id", "name",]
+              },
+              {
+                model: imagePost,
+                as: "imageposts", 
+                attributes: ["id", "urlImg",]             
+              },
+              {
+                model: PostCategory,
+                as: "post_category", 
+                attributes: ["id", "categoryId",] ,
+                include:[{
+                  model:Categories,
+                  as : "as_category",
+                  attributes: ["id", "name",]
+                }]           
+              },
+            ],
+            
+          }).then(data =>{
+            res.send({
+                status: true,
+                code: 200,
+                message: "success get data",
+                data
+              });
+          } );
+      }else{
+        this.index(req,res)
+      }
+
   }catch (error){
     res.send({
       status: false,
