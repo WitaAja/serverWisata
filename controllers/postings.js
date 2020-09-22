@@ -6,16 +6,16 @@ const Provinsi = require("../models").Provinsi;
 const Kota = require("../models").Kota;
 const imagePost = require("../models").imagePost;
 const Categories = require("../models").Categories;
+const PostCategory = require("../models").PostCategory
 const url = require("../constant").url
 
-//api create posting
+// create posting
 exports.createPosting = (req, res) => {
   try{
     const reqBody ={
       description: req.body.description,   
       prov: req.body.prov,
       kota: req.body.kota,
-      category: req.body.category,
       createdBy: userId
     }
     models.Posting.create(reqBody).then(response => {
@@ -53,6 +53,16 @@ exports.createPosting = (req, res) => {
               models.imagePost.create(request1).then(res => {   
               })
             });
+
+            _.forEach(_.keysIn(req.body.category), (key) => {
+              let cat = req.body.category[key];
+              const dataCategory = {
+                postingsId:response.id,
+                categoryId:cat
+            }
+            models.PostCategory.create(dataCategory).then(res => {})   
+            })
+
             res.send({
               status: true,
               message: "Files are uploaded",
@@ -71,7 +81,16 @@ exports.createPosting = (req, res) => {
       };
       models.imagePost.create(requestImgPost).then(res => {   
       })
- 
+
+      _.forEach(_.keysIn(req.body.category), (key) => {
+        let cat = req.body.category[key];
+        const dataCategory = {
+          postingsId:response.id,
+          categoryId:cat
+      }
+      models.PostCategory.create(dataCategory).then(res => {})   
+      })
+
       res.send({
         status: true,
         message: "Files are uploaded",
@@ -91,7 +110,7 @@ exports.createPosting = (req, res) => {
   } 
 };
 
-//api get all posting
+// get all posting
 exports.index = (req, res) => {
     try{
         models.Posting.findAll({
@@ -113,12 +132,18 @@ exports.index = (req, res) => {
               },
               {
                 model: imagePost,
-                as: "imageposts",              
+                as: "imageposts", 
+                attributes: ["id", "urlImg",]             
               },
               {
-                model: Categories,
-                as: "as_category", 
-                attributes: ["id", "name",]             
+                model: PostCategory,
+                as: "post_category", 
+                attributes: ["id", "categoryId",] ,
+                include:[{
+                  model:Categories,
+                  as : "as_category",
+                  attributes: ["id", "name",]
+                }]           
               }
             ]
           }).then(data =>{
@@ -139,11 +164,12 @@ exports.index = (req, res) => {
     }  
   };
 
+  // get my Posting
   exports.myPosting = (req, res) => {
     try{
-      const createdBy = userId
+        const createdBy = userId
         models.Posting.findAll({
-          where : {createdBy},
+          where :{createdBy},
             include: [         
               {
                 model: Users,
@@ -162,12 +188,18 @@ exports.index = (req, res) => {
               },
               {
                 model: imagePost,
-                as: "imageposts",              
+                as: "imageposts", 
+                attributes: ["id", "urlImg",]             
               },
               {
-                model: Categories,
-                as: "as_category", 
-                attributes: ["id", "name",]             
+                model: PostCategory,
+                as: "post_category", 
+                attributes: ["id", "categoryId",] ,
+                include:[{
+                  model:Categories,
+                  as : "as_category",
+                  attributes: ["id", "name",]
+                }]           
               }
             ]
           }).then(data =>{
@@ -186,4 +218,58 @@ exports.index = (req, res) => {
         data
       });
     }  
+  };
+
+  exports.postingSearch = (req, res) => {
+    try{
+      models.Posting.findAll({
+        where: {'$post_category.categoryId$': "1"},
+          include: [         
+            {
+              model: Users,
+              as: "user",
+              attributes: ["id", "name","foto"]
+            },
+            {
+              model: Provinsi,
+              as: "as_provinsi",
+              attributes: ["id", "name",]
+            },
+            {
+              model: Kota,
+              as: "as_kota",
+              attributes: ["id", "name",]
+            },
+            {
+              model: imagePost,
+              as: "imageposts", 
+              attributes: ["id", "urlImg",]             
+            },
+            {
+              model: PostCategory,
+              as: "post_category", 
+              attributes: ["id", "categoryId",] ,
+              include:[{
+                model:Categories,
+                as : "as_category",
+                attributes: ["id", "name",]
+              }]           
+            },
+          ]
+        }).then(data =>{
+          res.send({
+              status: true,
+              code: 200,
+              message: "success get data",
+              data
+            });
+        } );
+  }catch (error){
+    res.send({
+      status: false,
+      code: 500,
+      message: "error get data",
+      data
+    });
+  }  
   };

@@ -1,41 +1,28 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Postings', {
+    await queryInterface.createTable('PostCategories', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      description: {
-        type: Sequelize.STRING
-      },
-      prov: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        references: {
-          model: "Provinsi",
-          key: "id"
-        },
-        onUpdate: "cascade",
-        onDelete: "cascade"
-      },
-      kota: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        references: {
-          model: "Kota",
-          key: "id"
-        },
-        onUpdate: "cascade",
-        onDelete: "cascade"
-      },
-      createdBy: {
+      postingsId: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
-          model: "users",
+          model: "postings",
+          key: "id"
+        },
+        onUpdate: "cascade",
+        onDelete: "cascade"
+      },
+      categoryId: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        references: {
+          model: "Categories",
           key: "id"
         },
         onUpdate: "cascade",
@@ -52,6 +39,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Postings');
+    await queryInterface.dropTable('PostCategories');
   }
 };

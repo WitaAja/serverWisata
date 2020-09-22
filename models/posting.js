@@ -25,9 +25,9 @@ module.exports = (sequelize, DataTypes) => {
         as: "as_kota",
         sourceKey: "id"
       });
-      Posting.belongsTo(models.Categories, {
-        foreignKey: "category",
-        as: "as_category",
+      Posting.hasMany(models.PostCategory, {
+        foreignKey: "postingsId",
+        as: "post_category",
         sourceKey: "id"
       });
       Posting.hasMany(models.imagePost, {
@@ -35,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
          as :"imageposts",
          sourceKey: "id"
         });
+
+        
     } 
   };
   Posting.init({
@@ -48,7 +50,6 @@ module.exports = (sequelize, DataTypes) => {
     prov: DataTypes.INTEGER,
     kota: DataTypes.INTEGER,
     createdBy: DataTypes.STRING,
-    category: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Posting',
